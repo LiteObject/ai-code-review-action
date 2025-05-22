@@ -45,4 +45,5 @@ runs:
       id: list-ollama-models
       shell: bash
       run: |
-        echo "models=$(ollama list)" >> $GITHUB_OUTPUT
+        # Extract only the model names and join into a single line
+        echo "models=$(ollama list | awk 'NR>1 {print $1}' | tr '\n' ',')" >> $GITHUB_OUTPUT
