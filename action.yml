@@ -5,6 +5,10 @@ inputs:
     description: 'An example input parameter'
     required: true
     default: 'default-value'
+  ollama-model-name:
+    description: 'Ollama model name'
+    required: true
+    default: 'llama3.2:latest'
 outputs:
   example-output:
     description: 'An example output'
@@ -25,3 +29,14 @@ runs:
     - name: Run custom script from file
       run: ${{ github.action_path }}/scripts/my-script.sh ${{ inputs.example-input }}
       shell: bash
+    - name: Install Ollama
+      shell: bash
+      run: |
+        if ! command -v ollama > /dev/null 2>&1; then
+          curl -fsSL https://ollama.com/install.sh | sh
+        fi
+    - name: Pull Ollama model
+      shell: bash
+      run: |
+        ollama pull ${{ inputs.ollama-model-name }}
+        ollama list
