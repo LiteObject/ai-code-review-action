@@ -15,7 +15,7 @@ jobs:
         run: echo "Output was ${{ steps.my-composite-action.outputs.example-output }}"
       - name: Run AI Code Review Action
         id: ai-review
-        uses: LiteObject/ai-code-review-action@latest
+        uses: ./
         with:
           ollama-model-name: "llama3.2:latest"
       - name: Display installed models
