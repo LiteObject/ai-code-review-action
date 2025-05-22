@@ -1,0 +1,15 @@
+name: Test Composite Action
+on:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run my composite action
+        uses: ./
+        with:
+          example-input: 'Test Value'
+      - name: Use output
+        run: echo "Output was ${{ steps.my-composite-action.outputs.example-output }}"

@@ -1,0 +1,27 @@
+name: 'My Composite Action'
+description: 'A reusable composite action to perform setup and run a script'
+inputs:
+  example-input:
+    description: 'An example input parameter'
+    required: true
+    default: 'default-value'
+outputs:
+  example-output:
+    description: 'An example output'
+    value: ${{ steps.example-step.outputs.result }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Run a custom script
+      id: example-step
+      run: echo "result=Hello from composite action!" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: Run custom script from file
+      run: ${{ github.action_path }}/scripts/my-script.sh ${{ inputs.example-input }}
+      shell: bash
