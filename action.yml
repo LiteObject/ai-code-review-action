@@ -13,6 +13,9 @@ outputs:
   example-output:
     description: 'An example output'
     value: ${{ steps.example-step.outputs.result }}
+  installed-ollama-models:
+    description: 'List of installed Ollama models'
+    value: ${{ steps.list-models.outputs.models }}
 runs:
   using: 'composite'
   steps:
@@ -37,6 +40,9 @@ runs:
         fi
     - name: Pull Ollama model
       shell: bash
+      run: ollama pull ${{ inputs.ollama-model-name }}
+    - name: List installed Ollama models
+      id: list-models
+      shell: bash
       run: |
-        ollama pull ${{ inputs.ollama-model-name }}
-        ollama list
+        echo "models=$(ollama list)" >> $GITHUB_OUTPUT
